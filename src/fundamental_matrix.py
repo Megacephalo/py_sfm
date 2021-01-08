@@ -21,10 +21,11 @@ class Fundamental_matrix:
 		x1_pr = np.append(self._x1, np.ones((num_points, 1)), axis=1 )
 		x2_pr = np.append(self._x2, np.ones((num_points, 1)), axis=1 )
 
+		# 8-point algorithm
 		A = np.empty( shape=(num_points, 9) )
 		for i in range(num_points):
 			A[i, :] = np.kron(x1_pr[i, :], x2_pr[i, :])
-		
+
 		# Solve for F
 		__, __, V = svd(A, full_matrices=True)
 		F1 = np.reshape( V[:,-1], (3, 3))
