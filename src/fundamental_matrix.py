@@ -23,8 +23,8 @@ class Fundamental_matrix:
 
 		A = np.empty( shape=(num_points, 9) )
 		for i in range(num_points):
-			A[i, :] = np.kron(x1_pr[i, :], x2_pr[i, :]
-)		
+			A[i, :] = np.kron(x1_pr[i, :], x2_pr[i, :])
+		
 		# Solve for F
 		__, __, V = svd(A, full_matrices=True)
 		F1 = np.reshape( V[:,-1], (3, 3))
