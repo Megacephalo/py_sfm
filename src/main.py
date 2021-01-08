@@ -3,6 +3,7 @@
 
 import rospy
 from data_importer import *
+from fundamental_matrix import *
 from os.path import dirname, join, isdir
 
 if __name__=='__main__':
@@ -26,6 +27,8 @@ if __name__=='__main__':
 	x1, x2, x3, C, R, K, img1, img2, img3 = importer.render()
 
 	# Estimate fundamental matrix
+	FundMat = Fundamental_matrix(x1, x2)
+	F = FundMat.estimate()
 
 	# Estimate essential matrix from fundamental matrix ( and thus we have T and R)
 
