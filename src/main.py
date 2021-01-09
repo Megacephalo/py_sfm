@@ -6,6 +6,7 @@ import rospy
 from data_importer import *
 from fundamental_matrix import *
 from essential_matrix import *
+from linear_triangulation import *
 
 if __name__=='__main__':
 	rospy.init_node('py_sfm', anonymous=True)
@@ -36,6 +37,12 @@ if __name__=='__main__':
 	E = EssMat.estimate()
 
 	# Obtain 3D points using correct camera pose (Linear Triangulation)
+	## NOTE: The normal procedure is to obtain C1, R1, C2, R2 from the essential matrix,
+	## But the assignment is saving the effort by directly providing these variables from the datasets.
+	## We can also understand it this way: we are estimating from the first to second frame of 
+	## the entire video sequence, hence the initial state would be C = zeros(3, 1) and R = identity(3).
+	linTriag = Linear_triangulation(K, np.zeros((3, 1)), np.identity(3), C, R, x1, x2)
+	threeD_pts = linTriag.estimate()
 
 	# Find the third camera pose using Linear PnP
 
