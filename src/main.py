@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 #!/usr/bin/python
 
+from os.path import dirname, join, isdir
 import rospy
 from data_importer import *
 from fundamental_matrix import *
-from os.path import dirname, join, isdir
+from essential_matrix import *
 
 if __name__=='__main__':
 	rospy.init_node('py_sfm', anonymous=True)
@@ -29,8 +30,13 @@ if __name__=='__main__':
 	# Estimate fundamental matrix
 	FundMat = Fundamental_matrix(x1, x2)
 	F = FundMat.estimate()
+	print(F)
 
 	# Estimate essential matrix from fundamental matrix ( and thus we have T and R)
+	EssMat = Essential_matrix(F, K)
+	E = EssMat.estimate()
+
+	print(E)
 
 	# Obtain 3D points using correct camera pose (Linear Triangulation)
 
