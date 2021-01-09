@@ -76,8 +76,11 @@ class Data_Importer:
 		x2 = self.render_from_csv(self._x2_file)
 		x3 = self.render_from_csv(self._x3_file)
 
-		# Camera center C(u, v), Roration R, Intrinsic params K
+		# Camera center C, Roration R, Intrinsic params K
 		C = self.render_matrix_from_csv(self._C_file)
+		## The camera pose should appear as a 3 x 1 vector
+		C = C.reshape(3, 1)
+
 		R = self.render_matrix_from_csv(self._R_file)
 		K = self.render_matrix_from_csv(self._K_file)
 
