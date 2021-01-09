@@ -32,9 +32,6 @@ class Essential_matrix:
 
 		U, __, V = svd(E1)
 
-		print('U: ', U)
-		print('V: ', V)
-
 		E = U * np.array([(1, 0, 0), (0, 1, 0), (0, 0, 0)]) * np.transpose(V)
 
 		return E
