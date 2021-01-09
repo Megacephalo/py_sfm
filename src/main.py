@@ -30,13 +30,10 @@ if __name__=='__main__':
 	# Estimate fundamental matrix
 	FundMat = Fundamental_matrix(x1, x2)
 	F = FundMat.estimate()
-	print(F)
 
 	# Estimate essential matrix from fundamental matrix ( and thus we have T and R)
 	EssMat = Essential_matrix(F, K)
 	E = EssMat.estimate()
-
-	print(E)
 
 	# Obtain 3D points using correct camera pose (Linear Triangulation)
 
