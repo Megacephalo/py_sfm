@@ -7,6 +7,7 @@ from data_importer import *
 from fundamental_matrix import *
 from essential_matrix import *
 from linear_triangulation import *
+from linearPnP import *
 
 if __name__=='__main__':
 	rospy.init_node('py_sfm', anonymous=True)
@@ -45,6 +46,8 @@ if __name__=='__main__':
 	threeD_pts = linTriag.estimate()
 
 	# Find the third camera pose using Linear PnP
+	linearPnP = LinearPnP(threeD_pts, x3, K)
+	C3, R3 = linearPnP.estimate()
 
 	# Calculate reprojection point -> visualization
 
