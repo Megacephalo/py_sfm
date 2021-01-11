@@ -8,6 +8,7 @@ from fundamental_matrix import *
 from essential_matrix import *
 from linear_triangulation import *
 from linearPnP import *
+from nonlinear_triangulation import *
 
 if __name__=='__main__':
 	rospy.init_node('py_sfm', anonymous=True)
@@ -54,6 +55,12 @@ if __name__=='__main__':
 	# Visualization
 
 	# Nonelinear triangulation
+	nonLinearTriag = NonLinear_Triangulation(K, 
+											 np.zeros((3, 1)), np.identity(3), 
+											 C, R, 
+											 C3, R3, 
+											 x1, x2, x3, threeD_pts)
+	threeD_pts = nonLinearTriag.correct()
 
 	# Display point cloud and three camera poses
 
