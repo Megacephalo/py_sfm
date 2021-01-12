@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+	<arg name="enable_rviz" default="true"/>
+
+	<!-- <node	 pkg="tf"
+	        type="static_transform_publisher"
+	        name="map_camera_broadcaster"
+	        args="0 0 0 0 0 0 /map /camera 100" /> -->
+
+	<node pkg="py_sfm" type="main.py" name="py_sfm" output="screen" />
+
+	<node pkg = "rviz" type = "rviz" name = "rviz" if="$(arg enable_rviz)" 
+		  args="-d $(find py_sfm)/configs/my_custom_rviz_configs.rviz" />
+</launch>
