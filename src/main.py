@@ -9,6 +9,7 @@ from essential_matrix import *
 from linear_triangulation import *
 from linearPnP import *
 from nonlinear_triangulation import *
+from Display3D import *
 
 if __name__=='__main__':
 	rospy.init_node('py_sfm', anonymous=True)
@@ -50,10 +51,6 @@ if __name__=='__main__':
 	linearPnP = LinearPnP(threeD_pts, x3, K)
 	C3, R3 = linearPnP.estimate()
 
-	# Calculate reprojection point -> visualization
-
-	# Visualization
-
 	# Nonelinear triangulation
 	nonLinearTriag = NonLinear_Triangulation(K, 
 											 np.zeros((3, 1)), np.identity(3), 
@@ -63,9 +60,7 @@ if __name__=='__main__':
 	threeD_pts = nonLinearTriag.correct()
 
 	# Display point cloud and three camera poses
-
-	# Calculate reprojection points -> visualization
-
-	# Display correspondences between the keypoints and reprojection
-
-	# rospy.spin()
+	# Cset: C1, C2, C3
+	# Rset: R1, R2, R3
+	display = Display3D((np.zeros((3, 1)), C, C3), (np.identity(3), R, R3), threeD_pts)
+	display.show()
