@@ -62,5 +62,9 @@ if __name__=='__main__':
 	# Display point cloud and three camera poses
 	# Cset: C1, C2, C3
 	# Rset: R1, R2, R3
-	display = Display3D((np.zeros((3, 1)), C, C3), (np.identity(3), R, R3), threeD_pts)
+	imgTuple = (join(datasets_dir, 'image1.png'), join(datasets_dir, 'image2.png'), join(datasets_dir, 'image3.png'))
+	display = Display3D((np.zeros((3, 1)), C, C3), 
+						(np.identity(3), R, R3), 
+						threeD_pts, 
+						imgTuple)
 	display.show()
