@@ -12,6 +12,12 @@ import tf_conversions
 import tf2_ros
 import geometry_msgs.msg
 
+import cv2
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge, CvBridgeError
+
+from multiprocessing import Process
+
 from utilities import *
 
 class Display3D:
@@ -20,7 +26,7 @@ class Display3D:
 		Cset - tuple of all camera pose matrices. 
 		Rset - tuple of all rotation matrices
 	'''
-	def __init__(self, Cset, Rset, X):
+	def __init__(self, Cset, Rset, X, imageTuple):
 		if len(Cset) != len(Rset):
 			raise Exception('The numbers of C and R matrices are unmatched. Check the input, please.')
 
@@ -31,17 +37,20 @@ class Display3D:
 		self._Rset = Rset
 		self._X = X
 
+		self._imageTuple = imageTuple
+
 		# TODO: Make them into rosparams
 		self._world_frame = 'map'
 
 		self._tf2_br = tf2_ros.TransformBroadcaster()
-		self._pub = rospy.Publisher("point_cloud2", PointCloud2, queue_size=2)
 
 	def show(self):
+		
 		while not rospy.is_shutdown():
 			self.show_cameras(self._Cset, self._Rset)
 			self.show_3D_points()
-			rospy.sleep(.001)
+			self.show_imgs()
+			rospy.sleep(.01)
 
 	def show_cameras(self, Cset, Rset):
 		'''
@@ -87,4 +96,14 @@ class Display3D:
 		pc2 = point_cloud2.create_cloud(header, fields, points)
 		pc2.header.stamp = rospy.Time.now()
 
-		self._pub.publish(pc2)
+		pc_pub = rospy.Publisher("point_cloud2", PointCloud2, queue_size=2)
+		pc_pub.publish(pc2)
+
+	def show_imgs(self):
+		bridge = CvBridge()
+		for idx, img in enumerate(self._imageTuple):
+			cvImg = cv2.imread(img)
+			image_msg = bridge.cv2_to_imgmsg(cvImg, 'passthrough')
+			topic_name = 'image_' + str(idx + 1) + '_topic'
+			img_pub = rospy.Publisher(topic_name, Image, queue_size=2)
+			img_pub.publish(image_msg)
