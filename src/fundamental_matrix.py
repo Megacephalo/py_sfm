@@ -2,7 +2,7 @@
 #!/usr/bin/python
 
 import numpy as np
-from numpy.linalg import svd
+from numpy.linalg import svd, multi_dot
 
 class Fundamental_matrix:
 	def __init__(self, x1, x2):
@@ -30,8 +30,12 @@ class Fundamental_matrix:
 		__, __, V = svd(A, full_matrices=True)
 		F1 = np.reshape( V[:,-1], (3, 3))
 		UF, DF, VF = svd(F1)
+		
+		DF_p = np.array([ [DF[0] 	, 0 	, 0], 
+						  [0 		, DF[1] , 0],
+						  [0		,0		, 0] ])
 
-		F = UF * DF * np.transpose(VF)
+		F = multi_dot([UF, DF_p, VF])
 
 		return F
 
