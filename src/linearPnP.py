@@ -37,7 +37,8 @@ class LinearPnP:
 
 		# x1 = [x 1] has size N x 3
 		x1 = np.concatenate((self._x, np.ones(shape=(num_points, 1))), axis=1)
-		## xc = K \ x1' i.e. Solve xc for K * xc = x1^T using least squares
+		# xc = K \ x1' i.e. Solve xc for K * xc = x1^T using least squares
+		# But actually, it should be more like x_c = K^{-1} x
 		xc = solve(self._K, x1.transpose())
 		# xc' has size N x 3
 		xc = xc.transpose()
