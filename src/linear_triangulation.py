@@ -55,12 +55,12 @@ class Linear_triangulation:
 			# A = [skew1 * P1 ; skew2 * P2] A has size = 6 x 4
 			a1 = np.matmul(skew1, P1)
 			a2 = np.matmul(skew2, P2)
-			A = np.vstack((a1, a2))
+			A = np.concatenate((a1, a2), axis=0)
 
 			__, __, V = svd(A)
 
 			X1 = V[:, -1] / V[-1, -1]
-			X1 = X1[:-1]
+			X1 = X1[:-1]  # size (1 x 3)
 
 			# X = np.append(X, X1, axis=0)
 			X[idx] = X1
